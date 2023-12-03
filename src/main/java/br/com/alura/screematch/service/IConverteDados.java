@@ -1,6 +1,5 @@
 package br.com.alura.screematch.service;
 
-import br.com.alura.screematch.model.Dados;
 
 public interface IConverteDados {
 	
