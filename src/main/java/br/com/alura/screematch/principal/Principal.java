@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import br.com.alura.screematch.model.Dados;
 import br.com.alura.screematch.model.DadosTemporada;
 import br.com.alura.screematch.model.Serie;
+import br.com.alura.screematch.repository.SerieRepository;
 import br.com.alura.screematch.service.ConsumoApi;
 import br.com.alura.screematch.service.ConverteDados;
 
@@ -20,7 +21,12 @@ public class Principal {
 	private final String ENDERECO = "https://www.omdbapi.com/?t=";
 	private final String API_KEY = "&apikey=4944d971";
 	private List<Dados> dadosSeries =  new ArrayList<>();
+	private SerieRepository repositorio;
 	
+	public Principal(SerieRepository repositorio) {
+		this.repositorio = repositorio;
+	}
+
 	public void exibeMenu() {
 
 		var opcao = -1;
@@ -56,14 +62,15 @@ public class Principal {
 	}
 
 	private void listarSeriesBuscadas() {
-		List<Serie> series = new ArrayList<>();
-		series = dadosSeries.stream().map(d -> new Serie(d)).collect(Collectors.toList());
+		List<Serie> series = repositorio.findAll();
 		series.stream().sorted(Comparator.comparing(Serie::getGenero)).forEach(System.out::println);
 	}
 
 	private void buscarSerieWeb() {
 		Dados dados = getDados();
-		dadosSeries.add(dados);
+		Serie serie = new Serie(dados);
+//		dadosSeries.add(dados);
+		repositorio.save(serie);
 		System.out.println(dados);
 	}
 
