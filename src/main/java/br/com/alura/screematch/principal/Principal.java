@@ -172,7 +172,7 @@ public class Principal {
 	}
 
 	private void buscarTop5Series() {
-		List<Serie> topSeries = repositorio.findTop2ByOrderByAvaliacaoDesc();
+		List<Serie> topSeries = repositorio.findTop5ByOrderByAvaliacaoDesc();
 		topSeries.forEach(s -> System.out.println(s.getTitulo() + ": " + s.getAvaliacao()));
 
 	}
